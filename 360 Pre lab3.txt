@@ -1,0 +1,61 @@
+1. A process is a list of steps taken to acheive an end result.
+
+pid - Process ID
+ppid - Parent process ID
+
+Status? The state of the process can be free, ready, etc.
+
+Priority? Sceduling priority
+
+Event? Event value to sleep on
+
+exitCode? exit value
+
+Parent nodes can have child nodes. The parent node points to all children, the sibling points to all other
+children of that parent node.
+
+2.
+
+
+5.
+What does kfork do? kfork creates a new copy of the parent process called a "child task"
+
+What does tswitch do? This function implements process context switching. One process goes
+in and usually another one comes out.
+
+What does kexit do? Closes file descriptors, deallocates memory, disposes of children processes,
+records exit value for the parent, and becomes a ZOMBIE and wakes up the parent if needed.
+
+What does ksleep do? Record event value in PROC.event.
+
+What does kwakeup do? Wakes up all the processes sleeping on the event value.
+
+What does kwait do? If sucessful it returns the pid of the ZOMBIE of the child and status contains the exitCode of the ZOMBIE.
+It also releases the ZOMBIE PROC back to the freeList for reuse.
+
+--Test requirements--
+
+6. 
+What happens while running fork? P2 gets removed from freelist and is queued into readyQueue.
+
+P1 can fork 7 times because there are only 7 free procs.
+
+7.
+P1 was queued into readyQueue beacause switch is called and P1's status is checked, which in this case is "ready"
+it is put in the back of readyQueue.
+
+P2 running: 
+
+8.
+
+9.
+P1 should be running WHY? It should be running because P1 is the first in readyQueue and has the same priority as all procs.
+
+Which proc is a ZOMBIE? proc 2
+
+What happened to P2's children? P2's children became the siblings of P1.
+
+Enter wait; what happens? P2 gets a staus change to "free" and put into freeList.
+
+Enter wait again; What happens? Proc 1 is put to sleep since it's waiting for it's children to become a ZOMBIE. Proc 3 runs because it's next in queue.
+
